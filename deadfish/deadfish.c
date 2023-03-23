@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 int main(int argc, char *argv[])
 {
@@ -33,10 +34,34 @@ void readInputFile(char filename[])
     printf("Could not open file %s", filename);
     return;
   }
+
+  unsigned long value = 0;
+  char c;
+
+  bool comment = false;
   
-  while (fscanf(input, "%s", buff) == 1) { 
-    printf("%s\n", buff);
-  }
+  for(c = fgetc(input); c != EOF; c = fgetc(input)){
+    if(!comment){
+      switch (c) {
+        case 'i':
+          value++;
+          break;
+        case 'd':
+          value--;
+          break;
+        case 's':
+          value = value * value;
+          break;
+        case 'o':
+          printf("%ld\n", value);
+          break;
+      }
+
+      if(value == -1 || value == 256){
+        value = 0; // Gotta keep you on your toes :3
+      }
+    }
+  } 
 
   fclose(input);
 }
