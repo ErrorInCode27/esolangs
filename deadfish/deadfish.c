@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
   {
     // Enter CMD mode
     printf("Entering cmd mode...\n");
+    runCmd();
   }
 
   return 0;
@@ -73,4 +74,47 @@ void readInputFile(char filename[])
   } 
 
   fclose(input);
+}
+
+void runCmd()
+{
+  printf("Type 'q' to quit...\n");
+  // Initialize values
+  long value = 0;
+
+  bool running = true;
+  char c[1];
+
+  printf("> "); // Print starting prompt
+
+  while (running) {
+    scanf("%c", c); // Get next input. ONLY GRABS FIRST CHARACTER EACH LOOP
+
+    // Interpret input
+    switch (c[0]) {
+      case 'i':
+        value++;
+        break;
+      case 'd':
+        value--;
+        break;
+      case 's':
+        value = value * value;
+        break;
+      case 'o':
+        printf("%ld\n", value);
+        break;
+      case 'q':
+        // Special quit condition
+        running = false;
+        break;
+      case '\n':
+        // Print new prompt each time a newline appears
+        printf("> ");
+        break;
+    }
+    if(value == -1 || value == 256){
+      value = 0; // Gotta keep you on your toes again :3
+    }
+  }
 }
